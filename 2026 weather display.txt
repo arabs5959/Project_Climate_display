@@ -1,0 +1,63 @@
+import pandas as pd #read CSV file
+import matplotlib.pyplot as plt #making the plot
+import seaborn as sns #Making it look nice
+import matplotlib.dates as mdates #making the best fit line
+import numpy as np #displaying the equation of the best fit line
+
+# reading the data from the CSV file
+df = pd.read_csv('climate.csv')
+
+# converting the 'Date/Time' column to datetime format
+df['Date/Time'] = pd.to_datetime(df['Date/Time'])
+
+# Making it the right size (I think)
+plt.figure(figsize=(12, 6))
+sns.set_theme(style="whitegrid")
+# making average temp
+df['Avg_Temp'] = (df['Max Temp (°C)'] + df['Min Temp (°C)']) / 2
+sns.scatterplot(data=df, x='Date/Time', y='Avg_Temp', color='crimson', alpha=0.7)
+#formating
+plt.title('Average Daily Temperature Over Time', fontsize=14, fontweight='bold')
+plt.xlabel('Date', fontsize=12)
+plt.ylabel('Average Temperature (°C)', fontsize=12)
+
+
+# Calculate the overall mean of the average temperatures
+overall_avg = df['Avg_Temp'].mean()
+# --- ADDING THE AVERAGE LINE HERE ---
+# Convert datetime to numeric values so regplot can calculate the trend line math
+x_numeric = mdates.date2num(df['Date/Time'])
+
+# Format the equation string nicely
+# Slope shows the change in temperature per day
+equation_text = f'Equation: y = {slope:.4f}x + {intercept:.2f}'
+
+sns.regplot(
+    x=x_numeric, 
+    y=df['Avg_Temp'], 
+    color='crimson', 
+    scatter_kws={'alpha': 0.6, 's': 30},  # Customizes the scatter points
+ line_kws={'color': 'black', 'linewidth': 2.5, 'label': equation_text} # <--- PUT EQUATION IN LEGEND
+)
+# Add a legend to show what the points and line mean
+plt.legend(loc='upper right')
+# --- ALTERNATIVE: FLOATING TEXT BOX ON THE GRAPH ---
+# Adjust the 0.05 (X) and 0.95 (Y) to move the box around (0 to 1 scale of the axes)
+plt.text(
+    0.05, 0.95, equation_text, 
+    transform=ax.transAxes, 
+    fontsize=12, 
+    fontweight='bold',
+    verticalalignment='top', 
+    bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8)
+)
+
+
+# --- CALCULATE THE LINE EQUATION ---
+# polyfit(x, y, 1) calculates a 1st-degree polynomial (a straight line)
+slope, intercept = np.polyfit(x_numeric, df['Avg_Temp'], 1)
+
+
+#Actually making it show
+plt.tight_layout()
+plt.show()
