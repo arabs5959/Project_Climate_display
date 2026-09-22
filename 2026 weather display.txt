@@ -61,3 +61,4 @@ slope, intercept = np.polyfit(x_numeric, df['Avg_Temp'], 1)
 #Actually making it show
 plt.tight_layout()
 plt.show()
+ 
