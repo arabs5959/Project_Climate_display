@@ -1,4 +1,5 @@
 nupy
 pandas
-matplotlib
+matplotlib.pyplot
+matplotlib.dates
 seaborn
