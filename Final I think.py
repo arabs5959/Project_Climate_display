@@ -14,7 +14,7 @@ df['Date/Time'] = pd.to_datetime(df['Date/Time'])
 plt.figure(figsize=(12, 6))
 sns.set_theme(style="whitegrid")
 
-# making average temp
+# making average temp column to plot the average temp over time
 df['Avg_Temp'] = (df['Max Temp (°C)'] + df['Min Temp (°C)']) / 2
 
 # This removes rows where 'Avg_Temp' or 'Date/Time' are blank so the math doesn't break
@@ -23,7 +23,7 @@ df = df.dropna(subset=['Date/Time', 'Avg_Temp'])
 # Convert datetime to numeric values so regplot and polyfit can calculate the trend line math
 x_numeric = mdates.date2num(df['Date/Time'])
 
-# polyfit should wplr now
+# polyfit should work now
 slope, intercept = np.polyfit(x_numeric, df['Avg_Temp'], 1)
 
 # Format the equation string nicely
@@ -54,14 +54,14 @@ plt.ylabel('Average Temperature (°C)', fontsize=12)
 # legend to show what the points and line mean
 plt.legend(loc='upper right')
 
-# Floating text box on the graph
+# Floating text box on the graph, just followed instructions from website
 plt.text(
     0.05, 0.95, equation_text, 
     transform=ax.transAxes, 
     fontsize=12, 
     fontweight='bold',
     verticalalignment='top', 
-    bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8)
+    bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8) #just asked google and it gave me this. It works so I do not complain
 )
 
 # Actually making it show
