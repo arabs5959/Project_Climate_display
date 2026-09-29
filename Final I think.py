@@ -40,10 +40,10 @@ sns.regplot(
 )
 
 
-# Define 'ax' here so it can be used for formatting and text positioning
+# Define 'ax' here so it can be used for formatting and text positioning. Dont know why plotly uses GCA for axis 
 ax = plt.gca() 
 
-# Fix the X-axis labels back to readable dates
+# Uses mdates to make the dates nice. 
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 
 plt.title('Average Daily Temperature Over Time', fontsize=14, fontweight='bold')
@@ -51,7 +51,7 @@ plt.xlabel('Date', fontsize=12)
 plt.ylabel('Average Temperature (°C)', fontsize=12)
 
 
-# legend to show what the points and line mean
+# legend to show what the points and line mean You guessed, it was on the wbesite (or this one may have been stackoverflow) Either way its works
 plt.legend(loc='upper right')
 
 # Floating text box on the graph, just followed instructions from website
